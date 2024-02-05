@@ -5,10 +5,26 @@ import axios from "axios";
 import CollectionForm from "../../Components/Form/CollectionForm";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { Modal } from "antd";
 
 const CreateCollection = () => {
   const [collection, setCollection] = useState("");
   const [name, setName] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [updatedName, setUpdatedName] = useState("");
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,6 +63,28 @@ const CreateCollection = () => {
   useEffect(() => {
     getAllCollection();
   }, []);
+
+  //handleUpdate
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.put(
+        `/api/v1/collection/update-collection/${selected._id}`,
+        { name: updatedName }
+      );
+      if (data.success) {
+        alert(`${updatedName} is updated`);
+        setSelected(null);
+        setUpdatedName("");
+        handleCancel();
+        getAllCollection();
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      alert("Something went wrong in handleUpdate functionality");
+    }
+  };
 
   return (
     <Layout>
@@ -88,7 +126,14 @@ const CreateCollection = () => {
                           </td>
                           <td className="border border-green-600 px-8 py-2 text-lg text-gray-400 hover:text-gray-200 cursor-pointer">
                             <div className="flex gap-4">
-                              <EditIcon className="text-yellow-500" />
+                              <EditIcon
+                                className="text-yellow-500"
+                                onClick={() => {
+                                  showModal();
+                                  setUpdatedName(item.name);
+                                  setSelected(item);
+                                }}
+                              />
                               <DeleteIcon className="text-red-500" />
                             </div>
                           </td>
@@ -98,6 +143,18 @@ const CreateCollection = () => {
                 </tbody>
               </table>
             </div>
+            <Modal
+              title="Update Collection"
+              open={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleCancel}
+            >
+              <CollectionForm
+                value={updatedName}
+                setValue={setUpdatedName}
+                handleSubmit={handleUpdate}
+              />
+            </Modal>
           </div>
         </div>
       </div>

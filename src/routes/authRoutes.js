@@ -15,6 +15,7 @@ router.post("/signup", signUp);
 
 //login || method:post || /api/v1/auth/login
 router.post("/login", login);
+
 //logout || method:post || /api/v1/auth/logout
 router.post("/logout", logOut);
 

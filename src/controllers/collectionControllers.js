@@ -37,7 +37,7 @@ export const createCollection = async (req, res) => {
 export const updateCollection = async (req, res) => {
   try {
     const { name } = req.body;
-    const { id } = req.params;
+
     if (!name) {
       return res.status(400).json({
         success: false,
@@ -45,7 +45,7 @@ export const updateCollection = async (req, res) => {
       });
     }
     const updatedCollection = await Collection.findByIdAndUpdate(
-      id,
+      req.params.id,
       { name },
       { new: true, runValidators: true }
     );

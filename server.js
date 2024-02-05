@@ -34,7 +34,8 @@ let key = crypto.randomBytes(64).toString("hex");
 console.log(key);
 */
 
-//rest api
+//route
+//URL => http://localhost:4000
 app.get("/", (req, res) => {
   res.send("<h1>My Ecommerce App</h1>");
 });

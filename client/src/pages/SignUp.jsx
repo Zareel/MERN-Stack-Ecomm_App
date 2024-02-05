@@ -1,22 +1,16 @@
-import React, { useContext } from "react";
-import AuthContext from "../context/authContext";
+import React, { useState } from "react";
+
 import Layout from "../Components/Layout/Layout";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  const {
-    name,
-    setName,
-    email,
-    setEmail,
-    password,
-    setPassword,
-    phone,
-    setPhone,
-    address,
-    setAddress,
-  } = useContext(AuthContext);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
