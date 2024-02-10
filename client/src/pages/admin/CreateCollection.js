@@ -52,8 +52,8 @@ const CreateCollection = () => {
   const getAllCollection = async () => {
     try {
       const { data } = await axios.get("/api/v1/collection/get-allcollection");
-      if (data.success) {
-        setCollection(data.collections);
+      if (data?.success) {
+        setCollection(data?.collections);
       }
     } catch (error) {
       console.log(error);
@@ -72,17 +72,35 @@ const CreateCollection = () => {
         `/api/v1/collection/update-collection/${selected._id}`,
         { name: updatedName }
       );
-      if (data.success) {
+      if (data?.success) {
         alert(`${updatedName} is updated`);
         setSelected(null);
         setUpdatedName("");
         handleCancel();
         getAllCollection();
       } else {
-        alert(data.message);
+        alert(data?.message);
       }
     } catch (error) {
       alert("Something went wrong in handleUpdate functionality");
+    }
+  };
+
+  // handle delete
+  const handleDelete = async (id) => {
+    try {
+      const { data } = await axios.delete(
+        `/api/v1/collection/delete-collection/${id}`
+      );
+      if (data?.success) {
+        alert("Collection has been deleted successfully");
+        getAllCollection();
+      } else {
+        alert(data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong while deleting collection");
     }
   };
 
@@ -134,7 +152,12 @@ const CreateCollection = () => {
                                   setSelected(item);
                                 }}
                               />
-                              <DeleteIcon className="text-red-500" />
+                              <DeleteIcon
+                                className="text-red-500"
+                                onClick={() => {
+                                  handleDelete(item._id);
+                                }}
+                              />
                             </div>
                           </td>
                         </tr>
