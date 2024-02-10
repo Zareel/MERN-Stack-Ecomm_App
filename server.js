@@ -44,5 +44,5 @@ app.get("/", (req, res) => {
 
 const PORT = config.PORT;
 app.listen(PORT, () => {
-  console.log(`App is up and running on PORT: ${PORT}`.bgBlue.white);
+  console.log(`App is up and running on PORT: ${PORT} ⭐`.bgBlack.blue);
 });

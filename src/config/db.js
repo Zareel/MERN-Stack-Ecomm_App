@@ -3,11 +3,8 @@ import config from "./index.js";
 
 const connectDB = async (req, res) => {
   try {
-    const conn = await mongoose.connect(config.MONGODB_URL);
-    console.log(
-      `Connected to MongoDB ${conn.connection.host} successfully`.bgMagenta
-        .white
-    );
+    await mongoose.connect(config.MONGODB_URL);
+    console.log(`Successfully Connected to MongoDB 👍`.bgBlack.magenta);
   } catch (error) {
     console.log(`Error in connecting database ${error}`.bgRed.white);
     res.status(500).json({
